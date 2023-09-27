@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register here</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- add any additional stylesheets or scripts here -->
+    <style>
+        body {
+            background-color:#73131d;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Register here</h1>
+    <div class="form-container">
+        {% load crispy_forms_tags %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <button type="submit" class="btn btn-success">Register</button>
+        </form>
+    </div>
+    <div class="footer">
+        Fields with * are required
+    </div>
+    <!-- add any additional scripts here -->
+</body>
+</html>
+

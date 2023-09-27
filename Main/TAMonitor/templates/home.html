@@ -1,0 +1,172 @@
+<head>
+    {% extends 'base.html' %}     
+    <title>Home</title> 
+</head>
+<body>   
+    {% block title %}Home{% endblock %}
+    {% block content %}
+    {% if user.is_authenticated %}  
+    {% else %}
+        <p>You are not logged in.</p>
+        <a href="{%url 'login' %}" class="btn btn-primary">Log In in Here</a>
+        <br>
+        <br>
+        <a href="{%url 'register'%}"class="btn btn-primary">Register an account here</a>
+    {% endif %}
+    {% if user.is_instructor %} 
+        <a href="/createcourse" class="btn btn-primary">Create a course here</a>
+        <br>
+    {% endif %}
+    {% if user.is_student %}
+        <p>You are registered as a student. Apply to some courses! </p>
+        <a href="/studentapplications" class="btn btn-primary">View your Applications</a>
+    {% endif %}
+    {% if user.is_admin or user.is_superuser %} 
+        <a href="/admin" class="btn btn-primary">View the admin panel here</a>
+    {% endif %}
+    {% if courses and user.is_student %}
+        <div class="course-overview"> 
+            <div class="table">
+                <table class="table table-bordered table-hover table-striped table-condensed text-center">
+                    <div class="caption center-block text-center"> 
+                        Course Overview 
+                    </div>
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width:16.66%"><h4>Course ID</h4></th>
+                            <th scope="col" style="width:25%"><h4>Schedule</h4></th>
+                            <th scope="col" style="width:15%"><h4>Office Hours</h4></th>
+                            <th scope="col" style="width:15%"><h4>TAs Required</h4></th>
+                            <th scope="col" style="width:15%"><h4>Click to Apply</h4></th>
+                            <th scope="col" style="width:15%"><h4>Details</h4></th>
+                           
+                        </tr>
+                    </thead>
+                    <div class="caption center-block text-center">
+                        Number of courses: {{ courses|length }}
+                    </div>
+                    <tbody> 
+                        <tbody> 
+                            {% for course in courses %}
+                            <tr scope="row">
+                                <td>{{course.CourseID}}</td> 
+                                <td>{{course.Times}}</td> 
+                                <td>{{course.OfficeHours}}</td>
+                                <td>{{course.TAs}}</td>  
+                                <td class=><a href="/apply">Apply</a></td>
+                                <td><a href="{% url 'coursedetail' course.id %}">Details</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% else %}
+                            <!-- User is not a student -->   
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    <!-- Instructor Summary -->
+    <!-- Only able to see courses where they are the instructor -->
+    {% if courses and user.is_instructor %}    
+     <div class="course-overview"> 
+        <div class="table">
+            <table class="table table-bordered table-hover table-striped table-condensed text-center">
+                <div class="caption center-block text-center"> 
+                    Your Courses
+                </div>
+                <thead>
+                    <tr>
+                        <th scope="col" style="width:16.66%"><h4>Course ID</h4></th>
+                        <th scope="col" style="width:25%"><h4>Schedule</h4></th>
+                        
+                        <th scope="col" style="width:15%"><h4>TAs Required</h4></th>
+                        <th scope="col" style="width:15%"><h4>Edit</h4></th>
+                        <th scope="col" style="width:15%"><h4>Details</h4></th>
+
+                        <th scope="col" style="width:15%"><h4>View Applications</h4></th>
+                       
+                    </tr>
+                </thead> 
+                <tbody> 
+                    <tbody> 
+                        {% for course in courses %}
+
+                        {% if course.Instructor|stringformat:"s" == user.email|stringformat:"s" %}
+                        <!-- <p> Course Instructor matches current user account </p> --> 
+                        <!-- List courses only where these match -->
+                        <tr scope="row">
+                            <td>{{course.CourseID}}</td> 
+                            <td>{{course.Times}}</td> 
+                            <td>{{course.TAs}}</td>  
+                            <td><a href="{%url 'courseupdate' course.id %}">Edit</a></td>
+                            <td><a href="{% url 'coursedetail' course.id %}">Details</a></td>
+                            <td><a href="/allapplications">View Applications</a></td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                    {% else %}
+                        <!-- User is not a student -->   
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>               
+
+    <!-- Admin Summary -->
+    <!-- Able to edit all courses --> 
+     {% if courses and user.is_admin or user.is_superuser %}
+        <div class="course-overview"> 
+            <div class="table">
+                <table class="table table-bordered table-hover table-striped table-condensed text-center">
+                    <div class="caption center-block text-center"> 
+                        Course Overview 
+                    </div>
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width:16.66%"><h4>Course ID</h4></th>
+                            <th scope="col" style="width:25%"><h4>Schedule</h4></th> 
+                            <th scope="col" style="width:15%"><h4>TAs Required</h4></th>
+                            <th scope="col" style="width:15%"><h4>Edit</h4></th>
+                            <th scope="col" style="width:15%"><h4>Details</h4></th>
+                            <th scope="col" style="width:15%"><h4>View Applications</h4></th>
+                           
+                        </tr>
+                    </thead>
+                    <div class="caption center-block text-center">
+                        Number of courses: {{ courses|length }}
+                    </div>
+                    <tbody> 
+                        <tbody> 
+                            {% for course in courses %}
+                            <tr scope="row">
+                                <td>{{course.CourseID}}</td> 
+                                <td>{{course.Times}}</td>  
+                                <td>{{course.TAs}}</td>  
+                                <td><a href="{%url 'courseupdate' course.id %}">Edit</a></td>
+                                <td><a href="{% url 'coursedetail' course.id %}">Details</a></td>
+                                <td><a href="/allapplications">Applications</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% else %}
+                            <!-- User is not a student -->   
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    {% if user.is_authenticated and user.is_admin %} 
+    {% endif %}
+
+
+       
+             
+    
+    {% endblock %}
+</body>
+</html>

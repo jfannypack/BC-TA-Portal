@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Apply to a course {% endblock %}
+
+
+{% block content %}
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div>
+  <form method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.selected_course | as_crispy_field }}
+    <div class=>
+      {{ form.experience | as_crispy_field }}
+    </div>  
+  
+    {{ form.resume | as_crispy_field }}
+    <button type="submit" class="btn btn-submit">Submit Application</button>
+  </form>
+</div>
+{% endblock %}

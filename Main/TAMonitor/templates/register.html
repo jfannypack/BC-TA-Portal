@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}<b>Select a Role</b>{% endblock %}
+
+{% block content %}
+
+<div class="container text-center">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h3>Choose user type:</h3>
+      <a href="/studentregister" class="btn btn-lg btn-block btn-maroon mb-3">Student</a>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <a href="/instructorregister" class="btn btn-lg btn-block btn-maroon mb-3">Instructor</a>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <a href="/adminregister" class="btn btn-lg btn-block btn-maroon mb-3">Administrator</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background-color: #fff;
+    color: #000;
+  }
+  .btn-maroon {
+    background-color: #800000;
+    color: #fff;
+    border: none;
+  }
+  .btn-maroon:hover {
+    background-color: #660000;
+    color: #fff;
+    border: none;
+  }
+</style>
+{% endblock %}
+

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} View Applications {% endblock %}
+
+{% block content %}
+    <div style="background-color: maroon; padding: 50px;">
+        <h1 style="color: white; text-align: center;">Applications</h1>
+        <div class="form-container" style="background-color: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); padding: 20px; max-width: 500px; margin: 0 auto;">
+        
+        <h1>Student Applying: {{application.account.email}}</h1>
+        <p>Student Name: {{application.account.student.firstname}} {{application.account.student.lastname}} </p>
+        <p>Student Experience: {{application.Experience}}</p>
+        <p>Student Resume: <a href="{{ application.Resume.url }}">Download</a></p>
+
+        <div class="content">
+            <div style="display: inline-block"></div>
+                <form action="{% url 'acceptapp' application.id %}" method="POST">
+                {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-warning">Accept</button>
+                </form>
+
+                <form action="{% url 'rejectapp' application.id %}" method="POST">
+                {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-danger">Reject</button>
+                </form>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+{% endblock %}
+

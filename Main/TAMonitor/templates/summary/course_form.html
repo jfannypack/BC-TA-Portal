@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} Create A Course {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div style="background-color: maroon; padding: 50px;">
+        <h1 style="color: white; text-align: center;">Instructor Summary</h1>
+        <div class="form-container" style="background-color: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); padding: 20px; max-width: 500px; margin: 0 auto;">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+
+                <button type="submit" value="Update" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
